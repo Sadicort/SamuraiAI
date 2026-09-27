@@ -1,0 +1,3 @@
+# Ánimo (Mood)
+
+`MoodKind`: PEACEFUL, FOCUSED, HAPPY, MELANCHOLIC, ANGRY, FEARFUL, HOPEFUL, INSPIRED, EXHAUSTED, ALERT, NEUTRAL. Cada uno tiene una tabla de contribuciones de emociones (`MoodEngine`). Las puntuaciones siguen a las emociones con **inercia** (`moodInertia` 0,9 por paso, escalada por el tiempo transcurrido) y el ánimo sólo cambia si otro lidera por `moodSwitchMargin` **y** el actual ha durado `moodMinTicks`. Volver a NEUTRAL no exige margen (el ánimo simplemente se desvaneció). Puede durar horas o días. `MoodChangedEvent`. Proyección: `moodValence` matiza (con tope) la lectura de la evidencia social.

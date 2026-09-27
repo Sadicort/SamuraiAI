@@ -1,0 +1,234 @@
+{
+  "mappings": {
+    "noppes/npcs/mixin/PersistentEntitySectionManagerMixin": {
+      "sectionStorage": "f_157495_:Lnet/minecraft/world/level/entity/EntitySectionStorage;"
+    },
+    "noppes/npcs/mixin/PackRepositoryMixin": {
+      "openAllSelected": "Lnet/minecraft/server/packs/repository/PackRepository;m_10525_()Ljava/util/List;"
+    },
+    "noppes/npcs/mixin/AbstractContainerMenuMixin": {
+      "remoteSlots": "f_150394_:Lnet/minecraft/core/NonNullList;",
+      "lastSlots": "f_38841_:Lnet/minecraft/core/NonNullList;"
+    },
+    "noppes/npcs/mixin/EntityLivingMixin": {
+      "addAdditionalSaveData": "Lnet/minecraft/world/entity/LivingEntity;m_7380_(Lnet/minecraft/nbt/CompoundTag;)V"
+    },
+    "noppes/npcs/mixin/SkinManagerMixin": {
+      "skinsDirectory": "f_118808_:Ljava/io/File;"
+    },
+    "noppes/npcs/mixin/ItemModelMesherMixin": {
+      "getItemModel*": "Lnet/minecraft/client/renderer/ItemModelShaper;m_109406_(Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/client/resources/model/BakedModel;"
+    },
+    "noppes/npcs/mixin/ItemEntityMixin": {
+      "pickupDelay": "f_31986_:I",
+      "age": "f_31985_:I"
+    },
+    "noppes/npcs/mixin/LivingRenderer2Mixin": {
+      "layers": "f_115291_:Ljava/util/List;"
+    },
+    "noppes/npcs/mixin/ClientPlayNetHandlerMixin": {
+      "handleAddEntity": "Lnet/minecraft/client/multiplayer/ClientPacketListener;m_6771_(Lnet/minecraft/network/protocol/game/ClientboundAddEntityPacket;)V"
+    },
+    "noppes/npcs/mixin/IceBlockMixin": {
+      "randomTick": "Lnet/minecraft/world/level/block/IceBlock;m_213898_(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;)V"
+    },
+    "noppes/npcs/mixin/ScoreBoardMixin": {
+      "playerScores": "f_83410_:Ljava/util/Map;"
+    },
+    "noppes/npcs/mixin/MatrixStackMixin": {
+      "poseStack": "f_85834_:Ljava/util/Deque;"
+    },
+    "noppes/npcs/mixin/GoalSelectorMixin": {
+      "lockedFlags": "f_25344_:Ljava/util/Map;",
+      "disabledFlags": "f_25347_:Ljava/util/EnumSet;"
+    },
+    "noppes/npcs/mixin/LivingRenderer3Mixin": {
+      "scale": "m_7546_(Lnet/minecraft/world/entity/LivingEntity;Lcom/mojang/blaze3d/vertex/PoseStack;F)V"
+    },
+    "noppes/npcs/mixin/ServerLevelMixin": {
+      "entityManager": "f_143244_:Lnet/minecraft/world/level/entity/PersistentEntitySectionManager;"
+    },
+    "noppes/npcs/mixin/VineBlockMixin": {
+      "randomTick": "Lnet/minecraft/world/level/block/VineBlock;m_213898_(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;)V"
+    },
+    "noppes/npcs/mixin/MouseHelperMixin": {
+      "ypos": "f_91508_:D",
+      "xpos": "f_91507_:D",
+      "activeButton": "f_91510_:I",
+      "mouseGrabbed": "f_91520_:Z"
+    },
+    "noppes/npcs/mixin/ListNBTMixin": {
+      "list": "f_128716_:Ljava/util/List;"
+    },
+    "noppes/npcs/mixin/LivingRendererMixin": {
+      "addLayer": "Lnet/minecraft/client/renderer/entity/LivingEntityRenderer;m_115326_(Lnet/minecraft/client/renderer/entity/layers/RenderLayer;)Z"
+    },
+    "noppes/npcs/mixin/ChunkMapMixin": {
+      "playerMap": "f_140149_:Lnet/minecraft/server/level/PlayerMap;",
+      "visibleChunkMap": "f_140130_:Lit/unimi/dsi/fastutil/longs/Long2ObjectLinkedOpenHashMap;"
+    },
+    "noppes/npcs/mixin/ArmorMaterialsMixin": {
+      "durabilityMultiplier": "f_40462_:I"
+    },
+    "noppes/npcs/mixin/NoiseChunkGeneratorMixin": {
+      "spawnOriginalMobs": "Lnet/minecraft/world/level/levelgen/NoiseBasedChunkGenerator;m_6929_(Lnet/minecraft/server/level/WorldGenRegion;)V"
+    },
+    "noppes/npcs/mixin/EntityLivingIMixin": {
+      "lastHurtByPlayerTime": "f_20889_:I",
+      "jumping": "f_20899_:Z",
+      "swimAmountO": "f_20932_:F",
+      "animStepO": "f_20895_:F",
+      "useItemRemaining": "f_20936_:I",
+      "animStep": "f_20894_:F",
+      "swimAmount": "f_20931_:F"
+    },
+    "noppes/npcs/mixin/ScreenMixin": {
+      "init*": "Lnet/minecraft/client/gui/screens/Screen;m_6575_(Lnet/minecraft/client/Minecraft;II)V"
+    },
+    "noppes/npcs/mixin/EntityIMixin": {
+      "removalReason": "f_146795_:Lnet/minecraft/world/entity/Entity$RemovalReason;"
+    },
+    "noppes/npcs/mixin/MusicManagerMixin": {
+      "nextSongDelay": "f_120180_:I"
+    },
+    "noppes/npcs/mixin/LeavesBlockMixin": {
+      "isRandomlyTicking": "Lnet/minecraft/world/level/block/LeavesBlock;m_6724_(Lnet/minecraft/world/level/block/state/BlockState;)Z"
+    },
+    "noppes/npcs/mixin/BipedBodyMixin": {
+      "setupAnim": "Lnet/minecraft/client/model/HumanoidModel;m_6973_(Lnet/minecraft/world/entity/LivingEntity;FFFFF)V"
+    },
+    "noppes/npcs/mixin/ModelPartMixin": {
+      "children": "f_104213_:Ljava/util/Map;"
+    },
+    "noppes/npcs/mixin/ModelRendererMixin": {
+      "translateAndRotate": "Lnet/minecraft/client/model/geom/ModelPart;m_104299_(Lcom/mojang/blaze3d/vertex/PoseStack;)V"
+    },
+    "noppes/npcs/mixin/ArmorLayerMixin": {
+      "innerModel": "f_117071_:Lnet/minecraft/client/model/HumanoidModel;",
+      "outerModel": "f_117072_:Lnet/minecraft/client/model/HumanoidModel;"
+    },
+    "noppes/npcs/mixin/ParticleManagerMixin": {
+      "spriteSets": "f_107295_:Ljava/util/Map;"
+    },
+    "noppes/npcs/mixin/AgeableModelMixin": {
+      "renderToBuffer": "Lnet/minecraft/client/model/AgeableListModel;m_7695_(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V"
+    }
+  },
+  "data": {
+    "searge": {
+      "noppes/npcs/mixin/PersistentEntitySectionManagerMixin": {
+        "sectionStorage": "f_157495_:Lnet/minecraft/world/level/entity/EntitySectionStorage;"
+      },
+      "noppes/npcs/mixin/PackRepositoryMixin": {
+        "openAllSelected": "Lnet/minecraft/server/packs/repository/PackRepository;m_10525_()Ljava/util/List;"
+      },
+      "noppes/npcs/mixin/AbstractContainerMenuMixin": {
+        "remoteSlots": "f_150394_:Lnet/minecraft/core/NonNullList;",
+        "lastSlots": "f_38841_:Lnet/minecraft/core/NonNullList;"
+      },
+      "noppes/npcs/mixin/EntityLivingMixin": {
+        "addAdditionalSaveData": "Lnet/minecraft/world/entity/LivingEntity;m_7380_(Lnet/minecraft/nbt/CompoundTag;)V"
+      },
+      "noppes/npcs/mixin/SkinManagerMixin": {
+        "skinsDirectory": "f_118808_:Ljava/io/File;"
+      },
+      "noppes/npcs/mixin/ItemModelMesherMixin": {
+        "getItemModel*": "Lnet/minecraft/client/renderer/ItemModelShaper;m_109406_(Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/client/resources/model/BakedModel;"
+      },
+      "noppes/npcs/mixin/ItemEntityMixin": {
+        "pickupDelay": "f_31986_:I",
+        "age": "f_31985_:I"
+      },
+      "noppes/npcs/mixin/LivingRenderer2Mixin": {
+        "layers": "f_115291_:Ljava/util/List;"
+      },
+      "noppes/npcs/mixin/ClientPlayNetHandlerMixin": {
+        "handleAddEntity": "Lnet/minecraft/client/multiplayer/ClientPacketListener;m_6771_(Lnet/minecraft/network/protocol/game/ClientboundAddEntityPacket;)V"
+      },
+      "noppes/npcs/mixin/IceBlockMixin": {
+        "randomTick": "Lnet/minecraft/world/level/block/IceBlock;m_213898_(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;)V"
+      },
+      "noppes/npcs/mixin/ScoreBoardMixin": {
+        "playerScores": "f_83410_:Ljava/util/Map;"
+      },
+      "noppes/npcs/mixin/MatrixStackMixin": {
+        "poseStack": "f_85834_:Ljava/util/Deque;"
+      },
+      "noppes/npcs/mixin/GoalSelectorMixin": {
+        "lockedFlags": "f_25344_:Ljava/util/Map;",
+        "disabledFlags": "f_25347_:Ljava/util/EnumSet;"
+      },
+      "noppes/npcs/mixin/LivingRenderer3Mixin": {
+        "scale": "m_7546_(Lnet/minecraft/world/entity/LivingEntity;Lcom/mojang/blaze3d/vertex/PoseStack;F)V"
+      },
+      "noppes/npcs/mixin/ServerLevelMixin": {
+        "entityManager": "f_143244_:Lnet/minecraft/world/level/entity/PersistentEntitySectionManager;"
+      },
+      "noppes/npcs/mixin/VineBlockMixin": {
+        "randomTick": "Lnet/minecraft/world/level/block/VineBlock;m_213898_(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/core/BlockPos;Lnet/minecraft/util/RandomSource;)V"
+      },
+      "noppes/npcs/mixin/MouseHelperMixin": {
+        "ypos": "f_91508_:D",
+        "xpos": "f_91507_:D",
+        "activeButton": "f_91510_:I",
+        "mouseGrabbed": "f_91520_:Z"
+      },
+      "noppes/npcs/mixin/ListNBTMixin": {
+        "list": "f_128716_:Ljava/util/List;"
+      },
+      "noppes/npcs/mixin/LivingRendererMixin": {
+        "addLayer": "Lnet/minecraft/client/renderer/entity/LivingEntityRenderer;m_115326_(Lnet/minecraft/client/renderer/entity/layers/RenderLayer;)Z"
+      },
+      "noppes/npcs/mixin/ChunkMapMixin": {
+        "playerMap": "f_140149_:Lnet/minecraft/server/level/PlayerMap;",
+        "visibleChunkMap": "f_140130_:Lit/unimi/dsi/fastutil/longs/Long2ObjectLinkedOpenHashMap;"
+      },
+      "noppes/npcs/mixin/ArmorMaterialsMixin": {
+        "durabilityMultiplier": "f_40462_:I"
+      },
+      "noppes/npcs/mixin/NoiseChunkGeneratorMixin": {
+        "spawnOriginalMobs": "Lnet/minecraft/world/level/levelgen/NoiseBasedChunkGenerator;m_6929_(Lnet/minecraft/server/level/WorldGenRegion;)V"
+      },
+      "noppes/npcs/mixin/EntityLivingIMixin": {
+        "lastHurtByPlayerTime": "f_20889_:I",
+        "jumping": "f_20899_:Z",
+        "swimAmountO": "f_20932_:F",
+        "animStepO": "f_20895_:F",
+        "useItemRemaining": "f_20936_:I",
+        "animStep": "f_20894_:F",
+        "swimAmount": "f_20931_:F"
+      },
+      "noppes/npcs/mixin/ScreenMixin": {
+        "init*": "Lnet/minecraft/client/gui/screens/Screen;m_6575_(Lnet/minecraft/client/Minecraft;II)V"
+      },
+      "noppes/npcs/mixin/EntityIMixin": {
+        "removalReason": "f_146795_:Lnet/minecraft/world/entity/Entity$RemovalReason;"
+      },
+      "noppes/npcs/mixin/MusicManagerMixin": {
+        "nextSongDelay": "f_120180_:I"
+      },
+      "noppes/npcs/mixin/LeavesBlockMixin": {
+        "isRandomlyTicking": "Lnet/minecraft/world/level/block/LeavesBlock;m_6724_(Lnet/minecraft/world/level/block/state/BlockState;)Z"
+      },
+      "noppes/npcs/mixin/BipedBodyMixin": {
+        "setupAnim": "Lnet/minecraft/client/model/HumanoidModel;m_6973_(Lnet/minecraft/world/entity/LivingEntity;FFFFF)V"
+      },
+      "noppes/npcs/mixin/ModelPartMixin": {
+        "children": "f_104213_:Ljava/util/Map;"
+      },
+      "noppes/npcs/mixin/ModelRendererMixin": {
+        "translateAndRotate": "Lnet/minecraft/client/model/geom/ModelPart;m_104299_(Lcom/mojang/blaze3d/vertex/PoseStack;)V"
+      },
+      "noppes/npcs/mixin/ArmorLayerMixin": {
+        "innerModel": "f_117071_:Lnet/minecraft/client/model/HumanoidModel;",
+        "outerModel": "f_117072_:Lnet/minecraft/client/model/HumanoidModel;"
+      },
+      "noppes/npcs/mixin/ParticleManagerMixin": {
+        "spriteSets": "f_107295_:Ljava/util/Map;"
+      },
+      "noppes/npcs/mixin/AgeableModelMixin": {
+        "renderToBuffer": "Lnet/minecraft/client/model/AgeableListModel;m_7695_(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V"
+      }
+    }
+  }
+}

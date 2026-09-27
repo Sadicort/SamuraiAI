@@ -1,0 +1,11 @@
+[
+  {
+    "id": "ggml-tiny-q5_1",
+    "language": "AUTO",
+    "version": "1.0.0",
+    "size": 32152673,
+    "sha256": "818710568da3ca15689e31a743197b520007872ff9576237bda97bd1b469c3d7",
+    "url": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny-q5_1.bin?download=true",
+    "priority": 100
+  }
+]

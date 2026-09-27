@@ -1,0 +1,11 @@
+yadi.samuraiai.foundation.audit.checks.StructureAudit
+yadi.samuraiai.foundation.audit.checks.DependencyAudit
+yadi.samuraiai.foundation.audit.checks.SideAudit
+yadi.samuraiai.foundation.audit.checks.ConfigurationAudit
+yadi.samuraiai.foundation.audit.checks.ResourceAudit
+yadi.samuraiai.foundation.audit.checks.ModuleAudit
+yadi.samuraiai.foundation.audit.checks.ThreadAudit
+yadi.samuraiai.foundation.audit.checks.VoiceResourceAudit
+yadi.samuraiai.foundation.audit.checks.CustomNPCCompatibilityAudit
+yadi.samuraiai.foundation.audit.checks.PerformanceAudit
+yadi.samuraiai.foundation.audit.checks.CertificationAudit

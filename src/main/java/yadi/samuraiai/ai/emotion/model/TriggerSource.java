@@ -1,0 +1,3 @@
+package yadi.samuraiai.ai.emotion.model;
+
+public enum TriggerSource { PERCEPTION, MEMORY, RELATIONSHIP, WEATHER, TIME, COMBAT, CONVERSATION, VOICE, GLOBAL_EVENT, OBJECT, ECHO, CONTAGION, ADMIN }

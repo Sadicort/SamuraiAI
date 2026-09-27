@@ -1,0 +1,190 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+}
+group = mod_group_id
+version = mod_version
+base { archivesName = mod_id }
+java { toolchain.languageVersion = JavaLanguageVersion.of(17) }
+
+// Test both optional integration profiles. The affected CustomNPCs bootstrap
+// has a version-scoped workaround (docs/phase1_7/CUSTOMNPC_COMPATIBILITY.md).
+def withCustomNpcs = providers.gradleProperty('withCustomNpcs').map { it.toBoolean() }.getOrElse(false)
+def profile = withCustomNpcs ? 'with-customnpcs' : 'without-customnpcs'
+
+sourceSets {
+    customNpcsApi { java.srcDir 'src/customnpcs-api/java' }
+    gameTest {
+        java.srcDir 'src/gametest/java'
+        resources.srcDir 'src/gametest/resources'
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+    }
+}
+configurations.customNpcsApiImplementation.extendsFrom(configurations.implementation)
+
+minecraft {
+    mappings channel: mapping_channel, version: mapping_version
+    copyIdeResources = true
+    runs {
+        configureEach {
+            workingDirectory project.file("run")
+            property 'forge.logging.console.level', 'info'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', file('build/createSrgToMcp/output.srg').absolutePath
+            args '--mixin', 'samuraiai.customnpcs.mixins.json'
+            // Opt-in diagnostics for physical GameTests: -PnavTrace turns on structured navigation tracing.
+            if (providers.gradleProperty('navTrace').isPresent()) property 'samuraiai.navTrace', 'true'
+            mods { "${mod_id}" { source sourceSets.main } }
+        }
+        client {
+            if (providers.gradleProperty('smokeClient').isPresent()) {
+                property 'samuraiai.smokeClient', 'true'
+                mods { "${mod_id}" { source sourceSets.gameTest } }
+            }
+            if (providers.gradleProperty('voiceSmokeFixture').isPresent()) {
+                property 'samuraiai.voiceSmokeFixture', file(providers.gradleProperty('voiceSmokeFixture').get()).absolutePath
+            }
+        }
+        server { args '--nogui' }
+        gameTestServer {
+            workingDirectory project.file("build/phase1/${profile}")
+            property 'forge.enabledGameTestNamespaces', mod_id
+            property 'samuraiai.gameTests', 'true'
+            property 'samuraiai.expectCustomNpcs', withCustomNpcs.toString()
+            mods { "${mod_id}" { source sourceSets.gameTest } }
+        }
+        data {
+            workingDirectory project.file('run-data')
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
+    }
+}
+repositories { flatDir { dir 'libs' } }
+jarJar.enable()
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    // Compile against and bundle Whisper's bindings/native runtime. JNA itself
+    // is provided by Minecraft and must not be duplicated in another module.
+    // Forge only exposes non-mod libraries to its game classloader through minecraftLibrary.
+    // Use Minecraft's JNA 5.12.1: bundling a second JNA breaks its module/package graph.
+    minecraftLibrary('io.github.ggerganov:whispercpp:1.4.0') { transitive = false }
+    jarJar(group: 'io.github.ggerganov', name: 'whispercpp', version: '[1.4.0,1.5)') {
+        transitive = false
+        jarJar.pin(it, '1.4.0')
+    }
+    compileOnly sourceSets.customNpcsApi.output
+    // Public API stubs compile the optional adapter; only dev runs receive the remapped mod.
+    if (withCustomNpcs) runtimeOnly fg.deobf("blank:CustomNPCs:1.19.2-GBPort-Unofficial-20250701")
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.3'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.3'
+}
+tasks.named('processResources', ProcessResources).configure {
+    def values = [minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+            forge_version: forge_version, forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range, mod_id: mod_id, mod_name: mod_name,
+            mod_license: mod_license, mod_version: mod_version, mod_authors: mod_authors, mod_description: mod_description]
+    inputs.properties values
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) { expand values + [project: project] }
+}
+tasks.named('jar', Jar).configure {
+    // Keep the plain development artifact separate so the canonical JAR users
+    // copy to mods is always the Jar-in-Jar distribution produced below.
+    archiveClassifier.set('dev')
+    manifest { attributes(['Specification-Title': mod_id, 'Specification-Vendor': mod_authors,
+            'Specification-Version': '1', 'Implementation-Title': project.name,
+            'Implementation-Version': project.version, 'Implementation-Vendor': mod_authors]) }
+    manifest { attributes('MixinConfigs': 'samuraiai.customnpcs.mixins.json') }
+    finalizedBy 'reobfJar'
+}
+tasks.named('jarJar', Jar).configure {
+    archiveClassifier.set('')
+    manifest { attributes('MixinConfigs': 'samuraiai.customnpcs.mixins.json') }
+    finalizedBy 'reobfJarJar'
+}
+reobf { jarJar {} }
+tasks.named('build').configure { dependsOn 'jarJar' }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+// Foundation certificates are bound to the exact distribution SHA-256. Keep
+// archive order stable and strip source file timestamps so identical inputs
+// produce the same JAR instead of invalidating their own evidence on rebuild.
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+tasks.named('test', Test).configure {
+    useJUnitPlatform()
+    systemProperty 'file.encoding', 'UTF-8'
+    def whisperSmokeModel = providers.gradleProperty('samuraiai.whisper.model')
+    if (whisperSmokeModel.isPresent()) systemProperty 'samuraiai.whisper.model', whisperSmokeModel.get()
+    testLogging { events 'failed', 'skipped'; exceptionFormat 'full' }
+}
+tasks.matching { it.name in ['runClient', 'runServer', 'runGameTestServer'] }.configureEach {
+    dependsOn 'createSrgToMcp'
+}
+tasks.matching { it.name == 'runGameTestServer' }.configureEach {
+    dependsOn 'gameTestClasses'
+    mustRunAfter 'test'
+}
+tasks.named('check').configure { dependsOn 'runGameTestServer' }
+
+// Packaging regression gate, not Foundation certification or permission to publish.
+tasks.register('verifyDistributionJar') {
+    dependsOn 'reobfJarJar'
+    doLast {
+        def archive = tasks.named('jarJar', Jar).get().archiveFile.get().asFile
+        new java.util.zip.ZipFile(archive).withCloseable { zip ->
+            def readEntry = { String name ->
+                def entry = zip.getEntry(name)
+                if (entry == null) throw new GradleException("Missing distribution resource: ${name}")
+                zip.getInputStream(entry).withCloseable { it.readAllBytes() }
+            }
+            def manifest = new java.util.jar.Manifest(new ByteArrayInputStream(readEntry('META-INF/MANIFEST.MF')))
+            if (manifest.mainAttributes.getValue('MixinConfigs') != 'samuraiai.customnpcs.mixins.json')
+                throw new GradleException('CustomNPCs compatibility mixin missing from manifest')
+            readEntry('samuraiai.customnpcs.mixins.json')
+            readEntry('META-INF/services/yadi.samuraiai.foundation.audit.AuditCheck')
+            def metadata = new groovy.json.JsonSlurper().parse(readEntry('META-INF/jarjar/metadata.json'))
+            if (metadata.jars.size() != 1 || metadata.jars[0].identifier.artifact != 'whispercpp')
+                throw new GradleException('Expected only Whisper embedded, without duplicate JNA')
+            def nestedNames = []
+            new java.util.zip.ZipInputStream(new ByteArrayInputStream(readEntry(metadata.jars[0].path))).withCloseable { nested ->
+                for (def entry = nested.nextEntry; entry != null; entry = nested.nextEntry) nestedNames.add(entry.name)
+            }
+            if (!nestedNames.containsAll(['io/github/ggerganov/whispercpp/WhisperCppJnaLibrary.class', 'win32-x86-64/whisper.dll']))
+                throw new GradleException('Whisper binding or Windows runtime absent from embedded library')
+            if (zip.entries().toList().any { it.name.startsWith('noppes/') || it.name.startsWith('yadi/samuraiai/gametest/') || it.name.endsWith('.wav') })
+                throw new GradleException('API stubs, test classes or audio fixtures leaked into distribution')
+            def helper = new String(readEntry('yadi/samuraiai/integration/customnpcs/CustomNPCsSaveDirectory.class'), java.nio.charset.StandardCharsets.ISO_8859_1)
+            if (!helper.contains('m_129843_') || helper.contains('getWorldPath'))
+                throw new GradleException('Distribution has not been reobfuscated to Minecraft 1.19.2 SRG names')
+        }
+        logger.lifecycle('PHASE17_DISTRIBUTION_STRUCTURE_OK {}', archive.name)
+    }
+}
+tasks.named('check').configure { dependsOn 'verifyDistributionJar' }
+
+// Tiny deterministic structure fixture; binary NBT is a generated test artifact.
+def fixtureDir = layout.buildDirectory.dir('generated/gametest')
+sourceSets.gameTest.resources.srcDir fixtureDir
+tasks.register('generateGameTestFixture') {
+    def target = fixtureDir.map { it.file('data/samuraiai/structures/empty.nbt') }
+    outputs.file target
+    doLast {
+        def file = target.get().asFile
+        file.parentFile.mkdirs()
+        new DataOutputStream(new java.util.zip.GZIPOutputStream(new FileOutputStream(file))).withCloseable { out ->
+            out.writeByte(10); out.writeUTF('')
+            out.writeByte(3); out.writeUTF('DataVersion'); out.writeInt(3120)
+            out.writeByte(9); out.writeUTF('size'); out.writeByte(3); out.writeInt(3)
+            out.writeInt(5); out.writeInt(5); out.writeInt(5)
+            out.writeByte(9); out.writeUTF('palette'); out.writeByte(10); out.writeInt(1)
+            out.writeByte(8); out.writeUTF('Name'); out.writeUTF('minecraft:air'); out.writeByte(0)
+            out.writeByte(9); out.writeUTF('blocks'); out.writeByte(10); out.writeInt(0)
+            out.writeByte(9); out.writeUTF('entities'); out.writeByte(10); out.writeInt(0)
+            out.writeByte(0)
+        }
+    }
+}
+tasks.named('processGameTestResources').configure { dependsOn 'generateGameTestFixture' }

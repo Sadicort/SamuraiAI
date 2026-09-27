@@ -1,0 +1,7 @@
+# Eventos de familia
+
+Dominio `family` (`living/family/events`): `FamilyCreatedEvent`, `FamilyMemberJoinedEvent`, `BirthRegisteredEvent`, `GenerationAdvancedEvent`, `LifeStageChangedEvent`, `LifeStateChangedEvent`, `FamilyHeadChangedEvent`, `FamilyReputationChangedEvent`, `FamilyBranchCreatedEvent`, `FamilyMigratedEvent`, `FamilyExtinctEvent`, `MentorshipStartedEvent`, `MentorshipEndedEvent`, `TechniqueTaughtEvent`, `TechniqueLostEvent`, `LineageLeaderChangedEvent`, `InheritanceCompletedEvent`, `HeirloomTransferredEvent`, `HeirloomLostEvent`, `LegacyCreatedEvent`, `TraditionEmergedEvent`.
+
+Añadidos por la extensión de identidad de la Fase 5.5 (ver `PHASE5_5_IDENTITY_EXTENSION_CHANGELOG.md`): `HouseTitleGrantedEvent`, `EpithetGrantedEvent`, `ArtifactNamedEvent`, `ClanCreatedEvent`, `ClanJoinedEvent`, `ClanLeftEvent`, `ClanLeaderChangedEvent`, `ClanDisbandedEvent`.
+
+Reacciones del hub (`LivingReactions`): `LifeStateChangedEvent` a `MISSING` → misión de búsqueda de la persona (`ConditionKind.MISSING_PERSON`); `BirthRegisteredEvent` → registro de población del mundo; `HeirloomLostEvent` → misión de recuperación de la reliquia (`ConditionKind.HEIRLOOM_LOST`); `FamilyReputationChangedEvent` cuando cruza a la baja el umbral de deshonor de una familia → misión para restaurar su honor (`ConditionKind.FAMILY_DISHONOR`). Las dos últimas activan plantillas de misión (`recover_heirloom`, `restore_honor`) que ya existían en `QuestTemplates` desde la Fase 5 pero nunca tenían quien las disparase; ver la sección de ganchos de misión en `FAMILY_CEREMONIES.md`.
